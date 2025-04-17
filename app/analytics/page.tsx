@@ -59,7 +59,7 @@ const mockAnalytics: LinkAnalytics[] = [
     {
         id: "2",
         shortUrl: "shrt.ly/xyz789",
-        originalUrl: "https://another-example.com/long-url",
+        originalUrl: "https://www.arkade.quest",
         totalClicks: 3,
         clicks: [
             { date: "2024-04-17 09:15:00", location: "Paris, France" },
@@ -112,10 +112,26 @@ export default function AnalyticsPage() {
                                             }}
                                         >
                                             <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white">
-                                                {link.shortUrl}
+                                                <a
+                                                    className="text-primary hover:text-primary-600 dark:text-primary-400 dark:hover:text-primary-300"
+                                                    href={`https://${link.shortUrl}`}
+                                                    rel="noopener noreferrer"
+                                                    target="_blank"
+                                                    onClick={(e) => e.stopPropagation()}
+                                                >
+                                                    {link.shortUrl}
+                                                </a>
                                             </td>
                                             <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400 max-w-[200px] truncate">
-                                                {link.originalUrl}
+                                                <a
+                                                    className="text-primary hover:text-primary-600 dark:text-primary-400 dark:hover:text-primary-300"
+                                                    href={link.originalUrl}
+                                                    rel="noopener noreferrer"
+                                                    target="_blank"
+                                                    onClick={(e) => e.stopPropagation()}
+                                                >
+                                                    {link.originalUrl}
+                                                </a>
                                             </td>
                                             <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
                                                 {link.totalClicks}
