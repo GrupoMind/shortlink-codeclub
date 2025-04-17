@@ -1,11 +1,12 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import ReactCountryFlag from "react-country-flag";
 
 interface LocationData {
     country: string;
     city: string;
-    ip: string;
+    country_code: string;
 }
 
 export function LocationDetector() {
@@ -27,7 +28,7 @@ export function LocationDetector() {
                 setLocation({
                     country: data.country_name,
                     city: data.city,
-                    ip: data.ip,
+                    country_code: data.country_code,
                 });
             } catch (err) {
                 setError("No se pudo detectar la ubicación");
@@ -42,18 +43,40 @@ export function LocationDetector() {
 
     if (loading) {
         return (
-            <div className="text-sm text-default-500">Detectando ubicación...</div>
+            <div className="flex items-center gap-2 text-sm text-default-500">
+                <div className="w-5 h-5 rounded-full bg-gray-200 animate-pulse" />
+                Detectando ubicación...
+            </div>
         );
     }
 
     if (error) {
-        return <div className="text-sm text-danger">{error}</div>;
+        return (
+            <div className="flex items-center gap-2 text-sm text-danger">
+                <div className="w-5 h-5 rounded-full bg-red-100" />
+                {error}
+            </div>
+        );
     }
 
     return (
-        <div className="text-sm text-default-500">
-            Ubicación detectada: {location?.city}, {location?.country}
-            <div className="text-xs mt-1">IP: {location?.ip}</div>
+        <div className="flex items-center gap-3 text-sm text-default-500">
+            {location?.country_code && (
+                <ReactCountryFlag
+                    svg
+                    countryCode={location.country_code}
+                    style={{
+                        width: "1.5em",
+                        height: "1.5em",
+                    }}
+                    title={location.country}
+                />
+            )}
+            <div>
+                <span className="font-medium">{location?.city}</span>
+                <span className="mx-1">,</span>
+                <span>{location?.country}</span>
+            </div>
         </div>
     );
 }
