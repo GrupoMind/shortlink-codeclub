@@ -6,6 +6,7 @@ import { Button } from "@heroui/button";
 import { Card, CardBody, CardHeader } from "@heroui/card";
 import { useState } from "react";
 
+import { ParallaxItem } from "@/components/page-transition";
 import { subtitle } from "@/components/primitives";
 import { LocationDetector } from "@/components/location-detector";
 
@@ -39,70 +40,75 @@ export default function Home() {
   };
 
   return (
-    <section className="flex flex-col items-center justify-center gap-4 py-8 md:py-10">
-      <div className="inline-block max-w-xl text-center justify-center">
-        <h1>URL Shortener</h1>
-        <div className={subtitle({ class: "mt-4" })}>
-          Create short, memorable links in seconds
-        </div>
-      </div>
-
-      <Card className="max-w-xl w-full">
-        <CardHeader className="flex flex-col gap-1">
-          <h2 className="text-xl font-bold">Shorten your URL</h2>
-          <p className="text-sm text-default-500">
-            Enter your long URL below to get a shortened version
-          </p>
-        </CardHeader>
-        <CardBody>
-          <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
-            <Input
-              isRequired
-              label="Long URL"
-              placeholder="https://example.com/very-long-url"
-              type="url"
-              value={longUrl}
-              variant="bordered"
-              onChange={(e) => setLongUrl(e.target.value)}
-            />
-            <Input
-              label="Custom Alias (Optional)"
-              placeholder="my-custom-url"
-              type="text"
-              value={customAlias}
-              variant="bordered"
-              onChange={(e) => setCustomAlias(e.target.value)}
-            />
-            <Button color="primary" type="submit">
-              Shorten URL
-            </Button>
-          </form>
-
-          {/* Mostrar la ubicación detectada */}
-          <div className="mt-4">
-            <LocationDetector />
+    <section className="flex flex-col items-center justify-center gap-6 py-12 md:py-16">
+      <ParallaxItem index={0}>
+        <div className="inline-block max-w-2xl text-center justify-center mb-4">
+          <h1 className="text-5xl font-bold mb-3">URL Shortener</h1>
+          <div className="text-xl text-default-500 mt-4">
+            Create short, memorable links in seconds
           </div>
+        </div>
+      </ParallaxItem>
 
-          {/* Mostrar el URL acortado y la ubicación si existe */}
-          {shortenedUrl && (
-            <div className="mt-4 p-4 bg-default-100 rounded-lg">
-              <div className="font-medium">URL Acortado:</div>
-              <div className="text-primary">{shortenedUrl}</div>
-              {location && (
-                <div className="mt-2 text-sm text-default-500">
-                  Ubicación de creación: {location.city}, {location.country}
-                </div>
-              )}
-            </div>
-          )}
-        </CardBody>
-      </Card>
+      <ParallaxItem index={1}>
+        <Card className="w-full max-w-[380px] sm:max-w-[550px] md:max-w-[700px] lg:max-w-[800px] backdrop-blur-sm bg-background/70 shadow-xl border-1 border-white/10">
+          <CardHeader className="flex flex-col gap-2 pb-2 pt-6 px-8">
+            <h2 className="text-2xl font-bold">Shorten your URL</h2>
+            <p className="text-default-500">
+              Enter your long URL below to get a shortened version
+            </p>
+          </CardHeader>
+          <CardBody className="py-6 px-8">
+            <form className="flex flex-col gap-6">
+              <Input
+                isRequired
+                classNames={{
+                  base: "max-w-full",
+                  input: "text-base",
+                  inputWrapper: "border-1 border-default-200 data-[hover=true]:border-primary",
+                }}
+                label="Long URL"
+                labelPlacement="outside"
+                placeholder="https://example.com/very-long-url"
+                size="lg"
+                type="url"
+                variant="bordered"
+              />
+              <Input
+                classNames={{
+                  base: "max-w-full",
+                  input: "text-base",
+                  inputWrapper: "border-1 border-default-200 data-[hover=true]:border-primary",
+                }}
+                label="Custom Alias (Optional)"
+                labelPlacement="outside"
+                placeholder="my-custom-url"
+                size="lg"
+                type="text"
+                variant="bordered"
+              />
+              <div className="pt-2">
+                <Button 
+                  className="w-full font-medium text-base h-12" 
+                  color="primary" 
+                  size="lg" 
+                  type="submit"
+                >
+                  Shorten URL
+                </Button>
+              </div>
+            </form>
+          </CardBody>
+        </Card>
+      </ParallaxItem>
 
-      <div className="flex gap-3 mt-4">
-        <Link className="text-primary" href="/auth/login">
-          Login to access more features
-        </Link>
-      </div>
+      <ParallaxItem index={2}>
+        <div className="flex gap-3 mt-4">
+          <Link className="text-primary text-lg font-medium" href="/auth/login">
+            Login to access more features
+          </Link>
+        </div>
+      </ParallaxItem>
     </section>
   );
 }
